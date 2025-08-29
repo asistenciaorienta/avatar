@@ -41,22 +41,26 @@
       });
 
       // 🗣️ Cargar animación hablar.motion3.json como binario
-      fetch("modelo290825_2/hablar.motion3.json")
-        .then(res => res.arrayBuffer())
-        .then(buffer => {
-          const motion = model.internalModel.motionManager.createMotion(buffer);
+     fetch("modelo290825_2/hablar.motion3.json")
+  .then(res => res.text())
+  .then(text => {
+    const encoder = new TextEncoder();
+    const buffer = encoder.encode(text).buffer;
+    const motion = model.internalModel.motionManager.createMotion(buffer);
 
-          // Activar interacción
-          model.interactive = true;
-          model.buttonMode = true;
+    if (!motion) throw new Error("Motion no válido");
 
-          model.on("pointerdown", () => {
-            model.internalModel.motionManager.startMotion(motion, false);
-          });
-        })
-        .catch(err => {
-          console.error("Error cargando animación:", err);
-        });
+    model.interactive = true;
+    model.buttonMode = true;
+
+    model.on("pointerdown", () => {
+      model.internalModel.motionManager.startMotion(motion, false);
+    });
+  })
+  .catch(err => {
+    console.error("Error cargando animación:", err);
+  });
+
 
     }).catch(err => {
       console.error("Error cargando modelo:", err);
@@ -64,3 +68,4 @@
   </script>
 </body>
 </html>
+
