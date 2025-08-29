@@ -33,12 +33,24 @@
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
 
       app.stage.addChild(model);
+
+      // Hacer clic en el modelo para ejecutar animación
+      model.interactive = true;
+      model.on("pointertap", async () => {
+        try {
+          const motion = await PIXI.live2d.Motion.from("modelo290825/Parpadear.motion3.json");
+          model.motion(motion);
+        } catch (err) {
+          console.error("Error cargando animación:", err);
+        }
+      });
     }).catch(err => {
       console.error("Error cargando modelo:", err);
     });
   </script>
 </body>
 </html>
+
 
 
 
