@@ -15,15 +15,7 @@
   <script src="libs/Core/live2dcubismcore.min.js"></script>
   <!-- pixi-live2d-display con soporte Cubism 4 -->
   <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/cubism4.min.js"></script> -->
 
-<!-- Live2D Cubism Core 
-<script src="https://cdn.jsdelivr.net/npm/live2dcubismcore@1.0.2/dist/live2dcubismcore.min.js"></script>-->
-
-<!-- Pixi.js (opcional, si deseas usarlo para renderizado) 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.12/pixi.min.js"></script>-->
-
-  
   <script> 
     const app = new PIXI.Application({
       view: document.createElement("canvas"),
@@ -33,7 +25,12 @@
     });
     document.body.appendChild(app.view);
 
-    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(model => {
+    // Ruta de modelo y animación
+    const modelPath = "modelo290825_2/modelo290825_2.model3.json";
+    const motionPath = "modelo290825_2/hablar.motion3.json";
+
+    // Cargar modelo
+    PIXI.live2d.Live2DModel.from(modelPath).then(model => {
       model.scale.set(0.25);
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
@@ -45,80 +42,26 @@
         model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
-        const t = (Date.now() % 1000) / 1000; // ciclo 1 segundo
-        const eyeOpen = t < 0.9 ? 0 : 1;      // parpadeo rápido 0.1s cerrado
+        const t = (Date.now() % 1000) / 1000; 
+        const eyeOpen = t < 0.9 ? 0 : 1;
         model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", eyeOpen);
       });
 
-const modelPath = "modelo290825_2/modelo290825_2.model3.json";
-const motionPath = "modelo290825_2/hablar.motion3.json";
+      // 👉 Cargar animación y ejecutarla al hacer clic
+      fetch(motionPath)
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+          const motion = model.internalModel.motionManager.createMotion(buffer);
+          if (!motion) throw new Error("Motion no válido");
 
-// Cargar el modelo
-fetch(modelPath)
-  .then(res => res.json())
-  .then(modelData => {
-    const model = new Live2DCubismCore.CubismModel(modelData);
-    model.scale.set(0.25);
-    model.x = (window.innerWidth - model.width * model.scale.x) / 2;
-    model.y = (window.innerHeight - model.height * model.scale.y) / 2;
-    app.stage.addChild(model);
-
-    // Hacer el modelo interactivo
-    model.interactive = true;
-    model.buttonMode = true;
-
-    // Cargar la animación
-    fetch(motionPath)
-      .then(res => res.arrayBuffer())
-      .then(buffer => {
-        const motion = model.internalModel.motionManager.createMotion(buffer);
-        if (!motion) throw new Error("Motion no válido");
-
-        // Iniciar la animación al hacer clic
-        model.on("pointerdown", () => {
-          model.internalModel.motionManager.startMotion(motion, false);
-        });
-      })
-      .catch(err => {
-        console.error("Error cargando animación:", err);
-      });
-  };
-    }).catch(err => {
-      console.error("Error cargando modelo:", err);
-    });
+          model.interactive = true;
+          model.buttonMode = true;
+          model.on("pointerdown", () => {
+            model.internalModel.motionManager.startMotion(motion, false);
+          });
+        })
+        .catch(err => console.error("Error cargando animación:", err));
+    }).catch(err => console.error("Error cargando modelo:", err));
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
