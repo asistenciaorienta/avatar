@@ -37,14 +37,13 @@
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
       });
 
-      // 🗣️ Cargar animación hablar.motion3.json
-      const motion = await PIXI.live2d.Motion.from("modelo290825_2/hablar.motion3.json");
-
-      // 🖱️ Detectar clic sobre el modelo
-      model.interactive = true;
-      model.buttonMode = true;
-      model.on("pointerdown", () => {
-        model.motionManager.startMotion(motion, 0); // Ejecuta la animación
+      // 🗣️ Cargar animación hablar.motion3.json correctamente
+      model.loadMotion("hablar", "modelo290825_2/hablar.motion3.json").then(motion => {
+        model.interactive = true;
+        model.buttonMode = true;
+        model.on("pointerdown", () => {
+          model.motionManager.startMotion(motion, 0); // Ejecuta la animación
+        });
       });
 
     }).catch(err => {
@@ -53,3 +52,4 @@
   </script>
 </body>
 </html>
+
