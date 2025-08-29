@@ -47,12 +47,37 @@
         model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", eyeOpen);
       });
 
+const motionPath = "models/modelo290825_2/hablar.motion3.json";
+
+// Fetch para obtener el archivo motion
+fetch(motionPath)
+  .then(res => res.arrayBuffer())
+  .then(buffer => {
+    // Crear motion usando el Motion Manager del modelo
+    const motion = model.internalModel.motionManager.createMotion(buffer);
+    if (!motion) throw new Error("Motion no válido");
+
+    // Hacer el modelo interactivo
+    model.interactive = true;
+    model.buttonMode = true;
+
+    // Ejecutar la animación al hacer click
+    model.on("pointerdown", () => {
+      model.internalModel.motionManager.startMotion(motion, false);
+    });
+  })
+  .catch(err => {
+    console.error("Error cargando animación:", err);
+  });
+
+      
     }).catch(err => {
       console.error("Error cargando modelo:", err);
     });
   </script>
 </body>
 </html>
+
 
 
 
