@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +28,7 @@
     document.body.appendChild(app.view);
 
     // Carga del modelo
-    PIXI.live2d.Live2DModel.from("modelo_c4/modelo_c4.model3.json").then(model => {
+    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(model => {
       model.scale.set(0.25);
 
       // Centrar modelo
@@ -39,11 +41,8 @@
       model.internalModel.coreModel.setParameterValueById("ParamEyeLOpen", 1.0);
       model.internalModel.coreModel.setParameterValueById("ParamEyeROpen", 1.0);
 
-      // Desactivar parpadeo automático si quieres
-      // model.internalModel.motionManager.eyeBlink = null;
-
       // Hacer que al hacer click reproduzca animación de parpadeo
-      fetch("modelo_c4/Parpadear.motion3.json")
+      fetch("modelo290825_2/Parpadear.motion3.json")
         .then(res => res.arrayBuffer())
         .then(buffer => {
           const motion = model.internalModel.motionManager.createMotion(buffer);
