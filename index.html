@@ -42,17 +42,18 @@
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
       });
 
-      // 🗣️ Cargar animación hablar.motion3.json como binario
+
+// 🗣️ Cargar animación hablar.motion3.json correctamente
 fetch("modelo290825_2/hablar.motion3.json")
   .then(res => res.arrayBuffer())
   .then(buffer => {
     const motion = model.internalModel.motionManager.createMotion(buffer);
-
     if (!motion) throw new Error("Motion no válido");
 
     model.interactive = true;
     model.buttonMode = true;
 
+    // Iniciar animación al hacer click
     model.on("pointerdown", () => {
       model.internalModel.motionManager.startMotion(motion, false);
     });
@@ -62,12 +63,14 @@ fetch("modelo290825_2/hablar.motion3.json")
   });
 
 
+
     }).catch(err => {
       console.error("Error cargando modelo:", err);
     });
   </script>
 </body>
 </html>
+
 
 
 
