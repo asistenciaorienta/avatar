@@ -31,9 +31,13 @@
 
       app.stage.addChild(model);
 
-      // 👀 Forzar ojos abiertos (valor 0.0 = completamente abierto, 1.0 = cerrado)
+      // 👀 Forzar ojos abiertos, boca cerrada,  (valor 0.0 = completamente abierto, 1.0 = cerrado)
       app.ticker.add(() => {
         model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
+        model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
       });
       
     }).catch(err => {
@@ -42,6 +46,7 @@
   </script>
 </body>
 </html>
+
 
 
 
