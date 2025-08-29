@@ -30,12 +30,18 @@
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
 
       app.stage.addChild(model);
+
+      // 👀 Forzar ojos abiertos (valor 1.0 = completamente abierto, 0.0 = cerrado)
+      model.internalModel.coreModel.setParameterValueById("ParamEyeLOpen", 1.0);
+      model.internalModel.coreModel.setParameterValueById("ParamEyeROpen", 1.0);
+      
     }).catch(err => {
       console.error("Error cargando modelo:", err);
     });
   </script>
 </body>
 </html>
+
 
 
 
