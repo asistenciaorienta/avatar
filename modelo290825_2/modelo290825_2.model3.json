@@ -5,7 +5,19 @@
 		"Textures": [
 			"modelo290825_2.1024/texture_00.png"
 		],
-		"DisplayInfo": "modelo290825_2.cdi3.json"
+		"DisplayInfo": "modelo290825_2.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "parpadear.motion3.json"
+				}
+			],
+			"Tap": [
+				{
+					"File": "hablar.motion3.json"
+				}
+			]
+		}
 	},
 	"Groups": [
 		{
