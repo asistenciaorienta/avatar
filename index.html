@@ -35,7 +35,7 @@
 
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
-   //     model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
         model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
@@ -43,24 +43,13 @@
       });
 
 
-// 🗣️ Cargar animación hablar.motion3.json correctamente
-fetch("modelo290825_2/Parpadear.motion3.json")
-  .then(res => res.arrayBuffer())
-  .then(buffer => {
-    const motion = model.internalModel.motionManager.createMotion(buffer);
-    if (!motion) throw new Error("Motion no válido");
-
-    model.interactive = true;
-    model.buttonMode = true;
-
-    // Iniciar animación al hacer click
-    model.on("pointerdown", () => {
-      model.internalModel.motionManager.startMotion(motion, false);
-    });
-  })
-  .catch(err => {
-    console.error("Error cargando animación:", err);
-  });
+// Animación de parpadeo simple sin motion3.json
+app.ticker.add(() => {
+  const t = (Date.now() % 1000) / 1000; // ciclo 1 segundo
+  const eyeOpen = t < 0.1 ? 0 : 1;      // parpadeo rápido 0.1s cerrado
+  model.internalModel.coreModel.setParameterValueById("ParamEyeLOpen", eyeOpen);
+  model.internalModel.coreModel.setParameterValueById("ParamEyeROpen", eyeOpen);
+});
 
 
 
@@ -70,6 +59,7 @@ fetch("modelo290825_2/Parpadear.motion3.json")
   </script>
 </body>
 </html>
+
 
 
 
