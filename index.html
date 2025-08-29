@@ -22,16 +22,13 @@
     });
     document.body.appendChild(app.view);
 
-    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(model => {
+    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(async model => {
       model.scale.set(0.25);
-      
-      // Centrar el modelo
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
-
       app.stage.addChild(model);
 
-      // 👀 Forzar ojos abiertos, boca cerrada,  (valor 0.0 = completamente abierto, 1.0 = cerrado)
+      // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
         model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
         model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
@@ -39,22 +36,20 @@
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
       });
-      
+
+      // 🗣️ Cargar animación hablar.motion3.json
+      const motion = await PIXI.live2d.Motion.from("modelo290825_2/hablar.motion3.json");
+
+      // 🖱️ Detectar clic sobre el modelo
+      model.interactive = true;
+      model.buttonMode = true;
+      model.on("pointerdown", () => {
+        model.motionManager.startMotion(motion, 0); // Ejecuta la animación
+      });
+
     }).catch(err => {
       console.error("Error cargando modelo:", err);
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
