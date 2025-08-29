@@ -1,0 +1,95 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 0.933,
+		"Fps": 60.0,
+		"Loop": true,
+		"AreBeziersRestricted": false,
+		"CurveCount": 4,
+		"TotalSegmentCount": 9,
+		"TotalPointCount": 23,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "ParametroParpadeo",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.028,
+				0,
+				0.056,
+				1,
+				0.083,
+				1,
+				1,
+				0.111,
+				1,
+				0.139,
+				0,
+				0.167,
+				0,
+				1,
+				0.278,
+				0,
+				0.389,
+				0,
+				0.5,
+				0,
+				1,
+				0.528,
+				0,
+				0.556,
+				1,
+				0.583,
+				1,
+				1,
+				0.611,
+				1,
+				0.639,
+				0,
+				0.667,
+				0,
+				0,
+				0.933,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParametroMouthSpeak",
+			"Segments": [
+				0,
+				-1,
+				0,
+				0.933,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParametroAtencion",
+			"Segments": [
+				0,
+				-30,
+				0,
+				0.933,
+				-30
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Parametromoverpierna",
+			"Segments": [
+				0,
+				-30,
+				0,
+				0.933,
+				-30
+			]
+		}
+	]
+}
