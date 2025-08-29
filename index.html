@@ -35,11 +35,14 @@
 
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
-        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
         model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
+        const t = (Date.now() % 1000) / 1000; // ciclo 1 segundo
+        const eyeOpen = t < 0.1 ? 0 : 1;      // parpadeo rápido 0.1s cerrado
+        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
+        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1.0);
       });
 
 
@@ -59,6 +62,7 @@ app.ticker.add(() => {
   </script>
 </body>
 </html>
+
 
 
 
