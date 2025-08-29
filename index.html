@@ -32,7 +32,9 @@
       app.stage.addChild(model);
 
       // 👀 Forzar ojos abiertos (valor 0.0 = completamente abierto, 1.0 = cerrado)
-      model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
+      app.ticker.add(() => {
+        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.0);
+      });
       
     }).catch(err => {
       console.error("Error cargando modelo:", err);
@@ -40,6 +42,7 @@
   </script>
 </body>
 </html>
+
 
 
 
