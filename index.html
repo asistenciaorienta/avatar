@@ -9,9 +9,12 @@
   </style>
 </head>
 <body>
-  <!-- PIXI.js --> <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.12/pixi.min.js"></script>
-  <!-- Live2D Cubism Core --> <script src="live2dcubismcore.min.js"></script>
-  <!-- pixi-live2d-display con soporte Cubism 4 --> <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script> 
+  <!-- PIXI.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.12/pixi.min.js"></script>
+  <!-- Live2D Cubism Core -->
+  <script src="live2dcubismcore.min.js"></script>
+  <!-- pixi-live2d-display con soporte Cubism 4 -->
+  <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script> 
   
   <script>
     const app = new PIXI.Application({
@@ -22,7 +25,7 @@
     });
     document.body.appendChild(app.view);
 
-    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(async model => {
+    PIXI.live2d.Live2DModel.from("modelo290825_2/modelo290825_2.model3.json").then(model => {
       model.scale.set(0.25);
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
@@ -37,19 +40,22 @@
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
       });
 
-      // Cargar el archivo motion3.json como binario
+      // 🗣️ Cargar animación hablar.motion3.json como binario
       fetch("modelo290825_2/hablar.motion3.json")
         .then(res => res.arrayBuffer())
         .then(buffer => {
           const motion = model.internalModel.motionManager.createMotion(buffer);
-      
+
           // Activar interacción
           model.interactive = true;
           model.buttonMode = true;
-      
+
           model.on("pointerdown", () => {
             model.internalModel.motionManager.startMotion(motion, false);
           });
+        })
+        .catch(err => {
+          console.error("Error cargando animación:", err);
         });
 
     }).catch(err => {
@@ -58,5 +64,3 @@
   </script>
 </body>
 </html>
-
-
