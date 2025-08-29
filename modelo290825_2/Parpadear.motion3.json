@@ -1,0 +1,74 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 0.783,
+		"Fps": 60.0,
+		"Loop": true,
+		"AreBeziersRestricted": false,
+		"CurveCount": 4,
+		"TotalSegmentCount": 6,
+		"TotalPointCount": 14,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "ParametroParpadeo",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.028,
+				0,
+				0.056,
+				1,
+				0.083,
+				1,
+				1,
+				0.106,
+				1,
+				0.128,
+				0,
+				0.15,
+				0,
+				0,
+				0.783,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParametroMouthSpeak",
+			"Segments": [
+				0,
+				-1,
+				0,
+				0.783,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParametroAtencion",
+			"Segments": [
+				0,
+				-30,
+				0,
+				0.783,
+				-30
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Parametromoverpierna",
+			"Segments": [
+				0,
+				-30,
+				0,
+				0.783,
+				-30
+			]
+		}
+	]
+}
