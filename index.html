@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.45");
+      alert("Versión 1.46");
     };
   </script>
 
@@ -43,7 +43,7 @@
     let talking = false;
     let mouthValue = 0;
     let mouthSpeed = 0.05; // velocidad base apertura/cierre
-    let nextChangeSpeed = Date.now() + 500 + Math.random() * 1500; // momento del próximo cambio de velocidad
+    let nextChangeSpeed = Date.now() + 500; // momento del próximo cambio de velocidad
 
     
     // Cargar modelo
@@ -89,14 +89,14 @@
           // 🔹 cada cierto tiempo (0.3–0.8s) cambio de velocidad aleatoria
           if (now >= nextMouthChange) {
             // cambia la velocidad de hablar de forma aleatoria
-            mouthSpeed = 0.02 + Math.random() * 0.15; // entre lento y rápido
-            if (Math.random() > 0.5) mouthSpeed *= -1; // invertir dirección a veces
-            nextChangeSpeed = now + 500 + Math.random() * 1500;
+            mouthSpeed = (Math.random() * 0.12) + 0.05; // velocidad entre 0.05 y 0.17
+            if (Math.random() < 0.5) mouthSpeed *= -1;  // a veces empieza cerrando primero
+            nextMouthChange = now + (300 + Math.random() * 500); // siguiente cambio 0.3–0.8s
           }
           // mover boca con la velocidad actual
           mouthValue += mouthSpeed;
-          if (mouthValue > 1) mouthValue = 1;
-          if (mouthValue < 0.2) mouthValue = -1; // 🔹 nunca cerrar del todo
+          if (mouthValue >= 1) { mouthValue = 1; mouthSpeed *= -1; }
+          if (mouthValue <= 0) { mouthValue = 0; mouthSpeed *= -1; }
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
           // si no habla → boca cerrada
@@ -108,6 +108,7 @@
   </script>
 </body>
 </html>
+
 
 
 
