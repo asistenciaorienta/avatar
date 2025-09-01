@@ -28,7 +28,10 @@
     // Ruta de modelo y animación
     const modelPath = "modelo290825_2/modelo290825_2.model3.json";
     const motionPath = "modelo290825_2/hablar.motion3.json";
-
+    
+let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
+let blinking = false;
+    
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
       model.scale.set(0.25);
@@ -36,8 +39,7 @@
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
       
-let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
-let blinking = false;
+
       
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
@@ -81,6 +83,7 @@ let blinking = false;
   </script>
 </body>
 </html>
+
 
 
 
