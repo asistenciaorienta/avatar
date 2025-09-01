@@ -10,13 +10,12 @@
 </head>
 <body>
 
-<script>
-  window.onload = function() {
-    alert("Versión 1.1");
-  };
-</script>
+  <script>   //muestra ventana con la versión.
+    window.onload = function() {
+      alert("Versión 1.2");
+    };
+  </script>
 
-  
   <!-- PIXI.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.12/pixi.min.js"></script>
   <!-- Live2D Cubism Core -->
@@ -43,7 +42,7 @@
     // 🔹 Variables para simular el habla
     let talking = false;
     let mouthValue = 0;
-    let mouthSpeed = 0.12; // velocidad apertura/cierre
+    let mouthSpeed = 0.22; // velocidad apertura/cierre
     
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
@@ -83,7 +82,7 @@
         //hablar
         if (talking) {
           // activa parámetro "hablando"
-          //model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 1.0);
   
           // animación apertura/cierre de boca
@@ -91,7 +90,6 @@
           if (mouthValue >= 1 || mouthValue <= 0) {
             mouthSpeed *= -1; // invierte movimiento
           }
-  
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
           // si no habla → boca cerrada
@@ -103,6 +101,7 @@
   </script>
 </body>
 </html>
+
 
 
 
