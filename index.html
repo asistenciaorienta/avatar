@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.50");
+      alert("Versión 1.51");
     };
   </script>
 
@@ -74,13 +74,23 @@
         if (!blinking && now >= nextBlink) {
           // Inicia parpadeo
           blinking = true;
-          nextBlink = now + 100; // cerrar ojos durante 0.1s
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+          nextBlink = now + 50; // cerrar ojos durante 0.1s (antes 100)
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0.5); //antes 1
         } else if (blinking && now >= nextBlink) {
           // Termina parpadeo
-          blinking = false;
-          nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+          //blinking = false;
+          //nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
+          //model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+          if (model.internalModel.coreModel.getParameterValueById("ParametroParpadeo") === 0.5) {
+            // siguiente paso: completamente cerrado
+            nextBlink = now + 50;
+            model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+          } else {
+            // vuelve a abrir ojos
+            blinking = false;
+            nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo
+            model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+          }          
         }      
 
         //hablar
@@ -98,7 +108,7 @@
           if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
           // mover cejas aleatoriamente para expresión
-          const eyebrowOffset = (Math.random() * 20) - 30; // valor entre -30 y 30
+          const eyebrowOffset = (Math.random() * 60) - 30; // valor entre -30 y 30
           model.internalModel.coreModel.setParameterValueById("ParametroOjoDerecho", eyebrowOffset);
           model.internalModel.coreModel.setParameterValueById("ParametroOjoIzquierdo", eyebrowOffset);
           
@@ -111,4 +121,5 @@
   </script>
 </body>
 </html>
+
 
