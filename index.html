@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.57");
+      alert("Versión 1.59");
     };
   </script>
 
@@ -28,7 +28,7 @@
       view: document.createElement("canvas"),
       autoStart: true,
       resizeTo: window,
-      backgroundAlpha: 0
+      //backgroundAlpha: 0
     });
     document.body.appendChild(app.view);
 
@@ -67,6 +67,13 @@
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
 
+// Detener animaciones automáticas--------------------------------------------------------------Nuevo
+      model.motionManager.stopAllMotions();
+      model.internalModel.motionManager.stopAllMotions();
+      model.internalModel.expressionManager?.stopAllExpressions();
+
+
+      
       //estado inicial
       model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0); //inicio con ojos abiertos
       model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0); //inicio con ojos y cejas normales
@@ -150,6 +157,7 @@
   </script>
 </body>
 </html>
+
 
 
 
