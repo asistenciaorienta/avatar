@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.3");
+      alert("Versión 1.4");
     };
   </script>
 
@@ -42,7 +42,8 @@
     // 🔹 Variables para simular el habla
     let talking = false;
     let mouthValue = 0;
-    let mouthSpeed = 0.92; // velocidad apertura/cierre
+    let mouthSpeed = 0.08; // velocidad base apertura/cierre
+    let nextMouthChange = Date.now() + 500; // próximo cambio de velocidad
     
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
@@ -83,24 +84,30 @@
         if (talking) {
           // activa parámetro "hablando"
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 1.0);
-  
+          const now = Date.now();        
+          // 🔹 cada cierto tiempo (0.3–0.8s) cambio de velocidad aleatoria
+          if (now >= nextMouthChange) {
+            mouthSpeed = (Math.random() * 0.12) + 0.05; // velocidad entre 0.05 y 0.17
+            if (Math.random() < 0.5) mouthSpeed *= -1;  // a veces empieza cerrando primero
+            nextMouthChange = now + (300 + Math.random() * 500); // siguiente cambio 0.3–0.8s
+          }
           // animación apertura/cierre de boca
           mouthValue += mouthSpeed;
-          if (mouthValue >= 1 || mouthValue <= 0) {
-            mouthSpeed *= -1; // invierte movimiento
-          }
+          if (mouthValue >= 1) { mouthValue = 1; mouthSpeed *= -1; }
+          if (mouthValue <= 0) { mouthValue = 0; mouthSpeed *= -1; }
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", mouthValue > 0.2 ? 1.0 : 0.0); // solo abrir si está >20%
         } else {
           // si no habla → boca cerrada
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
-        }        
+        }
       });
     }).catch(err => console.error("Error cargando modelo:", err));
   </script>
 </body>
 </html>
+
 
 
 
