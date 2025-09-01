@@ -35,7 +35,10 @@
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
-
+      
+let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
+let blinking = false;
+      
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
         model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
@@ -45,26 +48,19 @@
 //        const t = (Date.now() % 1000) / 1000; 
 //        const eyeOpen = t < 3.9 ? 0 : 1;
 //        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", eyeOpen);
-let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
-let blinking = false;
 
-app.ticker.add(() => {
-  const now = Date.now();
-
-  if (!blinking && now >= nextBlink) {
-    // Inicia parpadeo
-    blinking = true;
-    nextBlink = now + 100; // cerrar ojos durante 0.1s
-    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
-  } else if (blinking && now >= nextBlink) {
-    // Termina parpadeo
-    blinking = false;
-    nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
-    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
-  }
-});
-
-        
+        const now = Date.now();      
+        if (!blinking && now >= nextBlink) {
+          // Inicia parpadeo
+          blinking = true;
+          nextBlink = now + 100; // cerrar ojos durante 0.1s
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+        } else if (blinking && now >= nextBlink) {
+          // Termina parpadeo
+          blinking = false;
+          nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+        }      
       });
 
       // 👉 Cargar animación y ejecutarla al hacer clic
@@ -85,6 +81,7 @@ app.ticker.add(() => {
   </script>
 </body>
 </html>
+
 
 
 
