@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+60<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Live2D funcionando</title>
   <style>
-    body { margin: 0; background-color: #f0f; overflow: hidden; }
+    body { margin: 0; overflow: hidden; }
     canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
   </style>
 </head>
@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.59");
+      alert("Versión 1.62");
     };
   </script>
 
@@ -28,7 +28,10 @@
       view: document.createElement("canvas"),
       autoStart: true,
       resizeTo: window,
-      //backgroundAlpha: 0
+      //width: 800,
+      //height: 600,      
+      backgroundAlpha: 0,
+      backgroundColor: 0xffffff // blanco, por ejemplo
     });
     document.body.appendChild(app.view);
 
@@ -69,7 +72,7 @@
 
 // Detener animaciones automáticas--------------------------------------------------------------Nuevo
       model.motionManager.stopAllMotions();
-      model.internalModel.motionManager.stopAllMotions();
+      //model.internalModel.motionManager.stopAllMotions();
       model.internalModel.expressionManager?.stopAllExpressions();
 
 
@@ -157,6 +160,7 @@
   </script>
 </body>
 </html>
+
 
 
 
