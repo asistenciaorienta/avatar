@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.53");
+      alert("Versión 1.55");
     };
   </script>
 
@@ -62,6 +62,9 @@
     
     // ------------------------------------Cargar modelo-------------------------------------
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
+      model.motionManager.stopAllMotions(); // Detiene animaciones automáticas
+      model.internalModel.motionManager.stopAllMotions(); // Por si acaso
+
       model.scale.set(0.25);
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
@@ -150,6 +153,7 @@
   </script>
 </body>
 </html>
+
 
 
 
