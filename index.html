@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.67");
+      alert("Versión 1.68");
     };
   </script>
 
@@ -55,8 +55,8 @@
     // Variables de suavizado de cejas  
     let browLeft = 0, browRight = 0;
     let browTargetLeft = 0, browTargetRight = 0;
-    let nextBrowChange = Date.now() + 300;
-    const browLerp = 0.1;
+    let nextBrowChange = Date.now() + 600;
+    const browLerp = 0.05;
     
     // Helper: lerp
     function lerp(a, b, t) { return a + (b - a) * t; }
@@ -119,11 +119,11 @@
             if (Math.random() < 0.5) mouthSpeed *= -1;
             nextMouthChange = now + (200 + Math.random() * 700); // 0.25..0.95s //antes 400
             // Movimiento expresivo: cejas arriba, inclinadas, etc.
-            const base = (Math.random() * 2 - 1) * 30; // -30 a +30
-            const tilt = (Math.random() * 2 - 1) * 10; // diferencia entre cejas
+            const base = (Math.random() * 2 - 1) * 60; // -30 a +30
+            const tilt = (Math.random() * 2 - 1) * 20; // diferencia entre cejas
             browTargetLeft = base + tilt;
             browTargetRight = base - tilt;    
-            nextBrowChange = now + (300 + Math.random() * 400);            
+            nextBrowChange = now + (600 + Math.random() * 800);            
           }
           //animar la boca
           mouthValue += mouthSpeed;
@@ -152,6 +152,7 @@
   </script>
 </body>
 </html>
+
 
 
 
