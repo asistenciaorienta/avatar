@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.51");
+      alert("Versión 1.52");
     };
   </script>
 
@@ -109,8 +109,8 @@
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
           // mover cejas aleatoriamente para expresión
           const eyebrowOffset = (Math.random() * 60) - 30; // valor entre -30 y 30
-          model.internalModel.coreModel.setParameterValueById("ParametroOjoDerecho", eyebrowOffset);
-          model.internalModel.coreModel.setParameterValueById("ParametroOjoIzquierdo", eyebrowOffset);
+          model.internalModel.coreModel.setParameterValueById("ParametroCejaDerecha", eyebrowOffset);
+          model.internalModel.coreModel.setParameterValueById("ParametroCejaIzquierda", eyebrowOffset);
           
         } else {
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
@@ -121,5 +121,6 @@
   </script>
 </body>
 </html>
+
 
 
