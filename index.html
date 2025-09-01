@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.47");
+      alert("Versión 1.48");
     };
   </script>
 
@@ -41,9 +41,9 @@
 
     // 🔹 Variables para simular el habla
     let talking = false;
-    let mouthValue = 0;
-    let mouthSpeed = 0.05; // velocidad base apertura/cierre
-    let nextChangeSpeed = Date.now() + 500; // momento del próximo cambio de velocidad
+    let mouthValue = -1;
+    let mouthSpeed = 0.08; // velocidad base apertura/cierre
+    let nextMouthChange = Date.now() + 500; // momento del próximo cambio de velocidad
 
     
     // Cargar modelo
@@ -52,6 +52,8 @@
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
+
+      //estado inicial
       model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0); //inicio con ojos abiertos
       model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0); //inicio con ojos y cejas normales
       model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0); //inicio con pierna natural
@@ -83,23 +85,20 @@
 
         //hablar
         if (talking) {
-          // activa parámetro "hablando"
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
-          const now = Date.now();        
-          // 🔹 cada cierto tiempo (0.3–0.8s) cambio de velocidad aleatoria
+
           if (now >= nextMouthChange) {
-            // cambia la velocidad de hablar de forma aleatoria
-            mouthSpeed = (Math.random() * 0.12) + 0.05; // velocidad entre 0.05 y 0.17
-            if (Math.random() < 0.5) mouthSpeed *= -1;  // a veces empieza cerrando primero
-            nextMouthChange = now + (300 + Math.random() * 500); // siguiente cambio 0.3–0.8s
+            mouthSpeed = (Math.random() * 0.15) + 0.05;
+            if (Math.random() < 0.5) mouthSpeed *= -1;
+            nextMouthChange = now + (200 + Math.random() * 400);
           }
-          // mover boca con la velocidad actual
+
           mouthValue += mouthSpeed;
-          if (mouthValue >= 1) { mouthValue = 1; mouthSpeed *= -1; }
-          if (mouthValue <= 0) { mouthValue = -1; mouthSpeed *= -1; }
+          if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
+          if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
+
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
-          // si no habla → boca cerrada
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         }
@@ -108,6 +107,7 @@
   </script>
 </body>
 </html>
+
 
 
 
