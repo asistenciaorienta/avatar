@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.63");
+      alert("Versión 1.64");
     };
   </script>
 
@@ -90,7 +90,6 @@
       model.on("pointerdown", () => {
         talking = !talking; // alterna hablar/no hablar      
       });   
-      
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
         //-------------------------------------Parpadeo------------------------------------
@@ -154,13 +153,15 @@
 
         // aplicar valores a parámetros (asegúrate de usar los IDs correctos)
         model.internalModel.coreModel.setParameterValueById(leftParam, browCurrentL);
-        model.internalModel.coreModel.setParameterValueById(rightParam, browCurrentR);        
+        model.internalModel.coreModel.setParameterValueById(rightParam, browCurrentR);    
+        
+      console.log(model); 
       });
     }).catch(err => console.error("Error cargando modelo:", err));
-    console.log(model);
   </script>
 </body>
 </html>
+
 
 
 
