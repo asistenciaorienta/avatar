@@ -31,7 +31,6 @@
     
     let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
     let blinking = false;
-    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
     
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
@@ -39,6 +38,7 @@
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
+      model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
       
 
       
@@ -84,4 +84,5 @@
   </script>
 </body>
 </html>
+
 
