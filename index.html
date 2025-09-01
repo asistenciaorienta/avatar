@@ -1,4 +1,4 @@
-60<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.65");
+      alert("Versión 1.66");
     };
   </script>
 
@@ -50,15 +50,13 @@
     let mouthSpeed = 0.08; // velocidad base apertura/cierre
     let nextMouthChange = Date.now() + 500; // momento del próximo cambio de velocidad
     // Cejas (parámetros que dijiste que tenías)
-    const leftParam  = "ParametroCejaIzquierda";   // ojo/ceja izquierda (tú lo creaste)
-    const rightParam = "ParametroCejaDerecha";     // ojo/ceja derecha
-    // Variables de suavizado de cejas
-    let browCurrentL = 0;
-    let browCurrentR = 0;
-    let browTargetL = 0;
-    let browTargetR = 0;
-    let nextBrowChange = Date.now() + 200; // cuándo recalcular un nuevo objetivo
-    const browLerp = 0.12; // cuánto interpolar cada frame (0..1)
+    const paramBrowLeft = "ParametroCejaIzquierda";
+    const paramBrowRight = "ParametroCejaDerecha";
+    // Variables de suavizado de cejas  
+    let browLeft = 0, browRight = 0;
+    let browTargetLeft = 0, browTargetRight = 0;
+    let nextBrowChange = Date.now() + 300;
+    const browLerp = 0.1;
     
     // Helper: lerp
     function lerp(a, b, t) { return a + (b - a) * t; }
@@ -69,14 +67,7 @@
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
-
-// Detener animaciones automáticas--------------------------------------------------------------Nuevo
-      model.motionManager?.stopAllMotions();
-      //model.internalModel.motionManager.stopAllMotions();
-      model.internalModel.expressionManager?.stopAllExpressions();
-
-
-      
+     
       //estado inicial
       model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0); //inicio con ojos abiertos
       model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0); //inicio con ojos y cejas normales
@@ -127,33 +118,34 @@
             mouthSpeed = (Math.random() * 0.15) + 0.05;
             if (Math.random() < 0.5) mouthSpeed *= -1;
             nextMouthChange = now + (200 + Math.random() * 700); // 0.25..0.95s //antes 400
+            // Movimiento expresivo: cejas arriba, inclinadas, etc.
+            const base = (Math.random() * 2 - 1) * 30; // -30 a +30
+            const tilt = (Math.random() * 2 - 1) * 10; // diferencia entre cejas
+            browTargetLeft = base + tilt;
+            browTargetRight = base - tilt;    
+            nextBrowChange = now + (300 + Math.random() * 400);            
           }
           //animar la boca
           mouthValue += mouthSpeed;
           if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
           if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
-          // preparar nuevo objetivo de cejas cada X ms
-          if (now >= nextBrowChange) {
-            browTargetL = (Math.random() * 60) - 30; // -30 .. 30
-            browTargetR = (Math.random() * 60) - 30;
-            nextBrowChange = now + (200 + Math.random() * 400); // 0.2..0.6s
-          }
+        }
         } else {
           // no hablar -> cerrar boca y reset cejas target a 0
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
-          browTargetL = 0;
-          browTargetR = 0;
+          browTargetLeft = 0;
+          browTargetRight = 0;
         }
         // ---------- SUAVIZAR CEJAS (siempre se aplica) ----------
-        // interpolamos desde current hacia target
-        browCurrentL = lerp(browCurrentL, browTargetL, browLerp);
-        browCurrentR = lerp(browCurrentR, browTargetR, browLerp);
-
-        // aplicar valores a parámetros (asegúrate de usar los IDs correctos)
-        model.internalModel.coreModel.setParameterValueById(leftParam, browCurrentL);
-        model.internalModel.coreModel.setParameterValueById(rightParam, browCurrentR);    
+        // Interpolación suave
+          browLeft = lerp(browLeft, browTargetLeft, browLerp);
+          browRight = lerp(browRight, browTargetRight, browLerp);
+        
+          // Aplicar al modelo
+          model.internalModel.coreModel.setParameterValueById(paramBrowLeft, browLeft);
+          model.internalModel.coreModel.setParameterValueById(paramBrowRight, browRight);
         
       //console.log(model); 
       });
@@ -161,6 +153,7 @@
   </script>
 </body>
 </html>
+
 
 
 
