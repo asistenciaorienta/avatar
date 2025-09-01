@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.48");
+      alert("Versión 1.49");
     };
   </script>
 
@@ -33,7 +33,7 @@
     document.body.appendChild(app.view);
 
     // Ruta de modelo y animación
-    const modelPath = "modelo290825_2/modelo290825_2.model3.json";
+    const modelPath = "modelo010925_1/modelo010925_1.model3.json";
 
     //variables para simular que parpadea
     let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
@@ -85,19 +85,23 @@
 
         //hablar
         if (talking) {
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0); //boca abierta
 
           if (now >= nextMouthChange) {
             mouthSpeed = (Math.random() * 0.15) + 0.05;
             if (Math.random() < 0.5) mouthSpeed *= -1;
             nextMouthChange = now + (200 + Math.random() * 400);
           }
-
+          //animar la boca
           mouthValue += mouthSpeed;
           if (mouthValue > 1) { mouthValue = 1; mouthSpeed *= -1; }
           if (mouthValue < -1) { mouthValue = -1; mouthSpeed *= -1; }
-
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
+          // mover cejas aleatoriamente para expresión
+          const eyebrowOffset = (Math.random() * 20) - 10; // valor entre -10 y 10
+          model.internalModel.coreModel.setParameterValueById("ParametroOjoDerecho", eyebrowOffset);
+          model.internalModel.coreModel.setParameterValueById("ParametroOjoIzquierdo", eyebrowOffset);
+          
         } else {
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
@@ -107,24 +111,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
