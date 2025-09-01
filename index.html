@@ -42,9 +42,29 @@
         model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
-        const t = (Date.now() % 1000) / 1000; 
-        const eyeOpen = t < 3.9 ? 0 : 1;
-        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", eyeOpen);
+//        const t = (Date.now() % 1000) / 1000; 
+//        const eyeOpen = t < 3.9 ? 0 : 1;
+//        model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", eyeOpen);
+let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
+let blinking = false;
+
+app.ticker.add(() => {
+  const now = Date.now();
+
+  if (!blinking && now >= nextBlink) {
+    // Inicia parpadeo
+    blinking = true;
+    nextBlink = now + 100; // cerrar ojos durante 0.1s
+    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+  } else if (blinking && now >= nextBlink) {
+    // Termina parpadeo
+    blinking = false;
+    nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
+    model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+  }
+});
+
+        
       });
 
       // 👉 Cargar animación y ejecutarla al hacer clic
@@ -65,6 +85,7 @@
   </script>
 </body>
 </html>
+
 
 
 
