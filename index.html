@@ -27,10 +27,16 @@
 
     // Ruta de modelo y animación
     const modelPath = "modelo290825_2/modelo290825_2.model3.json";
-    const motionPath = "modelo290825_2/hablar.motion3.json";
-    
+//    const motionPath = "modelo290825_2/hablar.motion3.json";
+
+    //variables para simular que parpadea
     let nextBlink = Date.now() + (2000 + Math.random() * 3000); // primer parpadeo entre 2 y 5s
     let blinking = false;
+
+    // 🔹 Variables para simular el habla
+    let talking = false;
+    let mouthValue = 0;
+    let mouthSpeed = 0.12; // velocidad apertura/cierre
     
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
@@ -39,13 +45,17 @@
       model.y = (window.innerHeight - model.height * model.scale.y) / 2;
       app.stage.addChild(model);
       model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0); //inicio con ojos abiertos
+      model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+      model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
       
-
-      
+      // 👉 Evento: hacer clic para que empiece/parar de hablar
+      model.interactive = true;
+      model.buttonMode = true;
+      model.on("pointerdown", () => {
+        talking = !talking; // alterna hablar/no hablar      
+          
       // 👀 Forzar parámetros en cada frame
       app.ticker.add(() => {
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
-        model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
         model.internalModel.coreModel.setParameterValueById("ParametroAtencion", -30.0);
         model.internalModel.coreModel.setParameterValueById("Parametromoverpierna", -30.0);
 
@@ -62,6 +72,24 @@
           nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
           model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
         }      
+
+        //hablar
+        if (talking) {
+          // activa parámetro "hablando"
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 1.0);
+  
+          // animación apertura/cierre de boca
+          mouthValue += mouthSpeed;
+          if (mouthValue >= 1 || mouthValue <= 0) {
+            mouthSpeed *= -1; // invierte movimiento
+          }
+  
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", mouthValue);
+        } else {
+          // si no habla → boca cerrada
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 0.0);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+        }        
       });
 
       // 👉 Cargar animación y ejecutarla al hacer clic
@@ -82,6 +110,7 @@
   </script>
 </body>
 </html>
+
 
 
 
