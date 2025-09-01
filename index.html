@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.55");
+      alert("Versión 1.56");
     };
   </script>
 
@@ -62,8 +62,17 @@
     
     // ------------------------------------Cargar modelo-------------------------------------
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
-      model.motionManager.stopAllMotions(); // Detiene animaciones automáticas
-      model.internalModel.motionManager.stopAllMotions(); // Por si acaso
+      // eliminar handlers de pointermove/pointermoveoutside/mousemove en model
+      if (model.off) {
+        model.off('pointermove');
+        model.off('pointermoveoutside');
+        model.off('mousemove');
+      }
+      // o, para PIXI EventEmitter:
+      if (model.removeAllListeners) {
+        model.removeAllListeners('pointermove');
+        model.removeAllListeners('mousemove');
+      }
 
       model.scale.set(0.25);
       model.x = (window.innerWidth - model.width * model.scale.x) / 2;
@@ -153,6 +162,7 @@
   </script>
 </body>
 </html>
+
 
 
 
