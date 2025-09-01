@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.62");
+      alert("Versión 1.63");
     };
   </script>
 
@@ -71,7 +71,7 @@
       app.stage.addChild(model);
 
 // Detener animaciones automáticas--------------------------------------------------------------Nuevo
-      model.motionManager.stopAllMotions();
+      model.motionManager?.stopAllMotions();
       //model.internalModel.motionManager.stopAllMotions();
       model.internalModel.expressionManager?.stopAllExpressions();
 
@@ -157,9 +157,11 @@
         model.internalModel.coreModel.setParameterValueById(rightParam, browCurrentR);        
       });
     }).catch(err => console.error("Error cargando modelo:", err));
+    console.log(model);
   </script>
 </body>
 </html>
+
 
 
 
