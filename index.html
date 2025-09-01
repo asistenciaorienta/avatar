@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.46");
+      alert("Versión 1.47");
     };
   </script>
 
@@ -96,7 +96,7 @@
           // mover boca con la velocidad actual
           mouthValue += mouthSpeed;
           if (mouthValue >= 1) { mouthValue = 1; mouthSpeed *= -1; }
-          if (mouthValue <= 0) { mouthValue = 0; mouthSpeed *= -1; }
+          if (mouthValue <= 0) { mouthValue = -1; mouthSpeed *= -1; }
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
           // si no habla → boca cerrada
@@ -108,6 +108,7 @@
   </script>
 </body>
 </html>
+
 
 
 
