@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.64");
+      alert("Versión 1.65");
     };
   </script>
 
@@ -36,7 +36,7 @@
     document.body.appendChild(app.view);
 
     // Ruta de modelo y animación
-    const modelPath = "modelo010925_1/modelo010925_1.model3.json";
+    const modelPath = "modelo010925_2/modelo010925_2.model3.json";
 
     //variables para simular que parpadea
     let nextBlink = Date.now() + (2000 + Math.random() * 3000);
@@ -155,12 +155,13 @@
         model.internalModel.coreModel.setParameterValueById(leftParam, browCurrentL);
         model.internalModel.coreModel.setParameterValueById(rightParam, browCurrentR);    
         
-      console.log(model); 
+      //console.log(model); 
       });
     }).catch(err => console.error("Error cargando modelo:", err));
   </script>
 </body>
 </html>
+
 
 
 
