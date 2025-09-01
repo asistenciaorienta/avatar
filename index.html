@@ -91,25 +91,11 @@
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         }        
       });
-
-      // 👉 Cargar animación y ejecutarla al hacer clic
-      fetch(motionPath)
-        .then(res => res.arrayBuffer())
-        .then(buffer => {
-          const motion = model.internalModel.motionManager.createMotion(buffer);
-          if (!motion) throw new Error("Motion no válido");
-
-          model.interactive = true;
-          model.buttonMode = true;
-          model.on("pointerdown", () => {
-            model.internalModel.motionManager.startMotion(motion, false);
-          });
-        })
-        .catch(err => console.error("Error cargando animación:", err));
     }).catch(err => console.error("Error cargando modelo:", err));
   </script>
 </body>
 </html>
+
 
 
 
