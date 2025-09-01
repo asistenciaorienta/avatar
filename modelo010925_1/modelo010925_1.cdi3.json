@@ -1,0 +1,58 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParametroParpadeo",
+			"GroupId": "",
+			"Name": "Parpadeo"
+		},
+		{
+			"Id": "ParametroCejaIzquierda",
+			"GroupId": "",
+			"Name": "CejaIzquierda"
+		},
+		{
+			"Id": "ParametroCejaDerecha",
+			"GroupId": "",
+			"Name": "CejaDerecha"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "Eyeball X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "Eyeball Y"
+		},
+		{
+			"Id": "ParametroMouthOpen",
+			"GroupId": "",
+			"Name": "Mouth Open"
+		},
+		{
+			"Id": "ParametroMouthSpeak",
+			"GroupId": "",
+			"Name": "Mouth Speak"
+		},
+		{
+			"Id": "ParametroAtencion",
+			"GroupId": "",
+			"Name": "Atención"
+		},
+		{
+			"Id": "Parametromoverpierna",
+			"GroupId": "",
+			"Name": "mover_pierna"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [],
+	"CombinedParameters": [
+		[
+			"ParamEyeBallX",
+			"ParamEyeBallY"
+		]
+	]
+}
