@@ -56,12 +56,12 @@ let blinking = false;
           // Inicia parpadeo
           blinking = true;
           nextBlink = now + 100; // cerrar ojos durante 0.1s
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
         } else if (blinking && now >= nextBlink) {
           // Termina parpadeo
           blinking = false;
           nextBlink = now + (2000 + Math.random() * 3000); // próximo parpadeo entre 2 y 5s
-          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 1);
+          model.internalModel.coreModel.setParameterValueById("ParametroParpadeo", 0);
         }      
       });
 
@@ -83,6 +83,7 @@ let blinking = false;
   </script>
 </body>
 </html>
+
 
 
 
