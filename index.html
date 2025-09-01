@@ -75,7 +75,7 @@
         //hablar
         if (talking) {
           // activa parámetro "hablando"
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
+          //model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 1.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 1.0);
   
           // animación apertura/cierre de boca
@@ -84,17 +84,18 @@
             mouthSpeed *= -1; // invierte movimiento
           }
   
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", mouthValue);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
           // si no habla → boca cerrada
           model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
-          //model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         }        
       });
     }).catch(err => console.error("Error cargando modelo:", err));
   </script>
 </body>
 </html>
+
 
 
 
