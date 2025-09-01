@@ -12,7 +12,7 @@
 
   <script>   //muestra ventana con la versión.
     window.onload = function() {
-      alert("Versión 1.43");
+      alert("Versión 1.44");
     };
   </script>
 
@@ -42,8 +42,9 @@
     // 🔹 Variables para simular el habla
     let talking = false;
     let mouthValue = 0;
-    let mouthSpeed = 0.08; // velocidad base apertura/cierre
-    let nextMouthChange = Date.now() + 500; // próximo cambio de velocidad
+    let mouthSpeed = 0.05; // velocidad base apertura/cierre
+    let nextChangeSpeed = Date.now() + 500 + Math.random() * 1500; // momento del próximo cambio de velocidad
+
     
     // Cargar modelo
     PIXI.live2d.Live2DModel.from(modelPath).then(model => {
@@ -87,19 +88,19 @@
           const now = Date.now();        
           // 🔹 cada cierto tiempo (0.3–0.8s) cambio de velocidad aleatoria
           if (now >= nextMouthChange) {
-            mouthSpeed = (Math.random() * 0.12) + 0.05; // velocidad entre 0.05 y 0.17
-            if (Math.random() < 0.5) mouthSpeed *= -1;  // a veces empieza cerrando primero
-            nextMouthChange = now + (300 + Math.random() * 500); // siguiente cambio 0.3–0.8s
+            // cambia la velocidad de hablar de forma aleatoria
+            mouthSpeed = 0.02 + Math.random() * 0.15; // entre lento y rápido
+            if (Math.random() > 0.5) mouthSpeed *= -1; // invertir dirección a veces
+            nextChangeSpeed = now + 500 + Math.random() * 1500;
           }
-          // animación apertura/cierre de boca
+          // mover boca con la velocidad actual
           mouthValue += mouthSpeed;
-          if (mouthValue >= 1) { mouthValue = 1; mouthSpeed *= -1; }
-          if (mouthValue <= 0) { mouthValue = 0; mouthSpeed *= -1; }
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue > 0.2 ? 1.0 : 0.0);
-          //model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", mouthValue > 0.2 ? 1.0 : 0.0); // solo abrir si está >20%
+          if (mouthValue > 1) mouthValue = 1;
+          if (mouthValue < 0.2) mouthValue = 0.2; // 🔹 nunca cerrar del todo
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", mouthValue);
         } else {
           // si no habla → boca cerrada
-          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", -1.0);
+          model.internalModel.coreModel.setParameterValueById("ParametroMouthSpeak", 0.0);
           model.internalModel.coreModel.setParameterValueById("ParametroMouthOpen", 0.0);
         }
       });
@@ -107,6 +108,7 @@
   </script>
 </body>
 </html>
+
 
 
 
